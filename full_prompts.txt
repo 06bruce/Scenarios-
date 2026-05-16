@@ -1,0 +1,881 @@
+WINDSURF MASTER PROMPT FILE
+10 Full Stack Web Development Projects
+React.js  ·  Node.js / Express.js  ·  MongoDB Compass  ·  Tailwind CSS  ·  Axios
+HOW TO USE THIS FILE
+Open Windsurf IDE.
+Create a root workspace folder (e.g. NESA_Projects).
+For each scenario below, create its folder (e.g. scenario-1-SLMS) inside the workspace.
+Open that folder in Windsurf, then paste the scenario's prompt into the AI chat.
+The AI will scaffold both backend-project and frontend-project inside the scenario folder.
+Repeat for every scenario independently.
+  GLOBAL TECH STACK & RULES  (applies to ALL 10 scenarios)  
+Stack
+Frontend : React.js (Vite), React Router DOM, Axios, Tailwind CSS
+Backend  : Node.js, Express.js, Mongoose (MongoDB ODM), CORS, dotenv, nodemon
+Database : MongoDB — use MongoDB Compass to view data (NO MySQL)
+Auth     : Simple session-based login stored in localStorage (no JWT needed)
+Folder structure inside each scenario folder
+scenario-X-CODE/
+  backend-project/
+    models/
+    routes/
+    server.js
+    .env
+    package.json
+  frontend-project/
+    src/
+      components/
+      pages/
+      api/
+      App.jsx
+      main.jsx
+    index.html
+    package.json
+Backend rules
+server.js imports express, cors, mongoose, dotenv.
+Connect to MongoDB with: mongoose.connect('mongodb://localhost:27017/CODE')
+Port: 5000. Use nodemon for development.
+One route file per entity (e.g. routes/students.js).
+Full CRUD only on the LAST (transaction) entity. INSERT only on the other two.
+Frontend rules
+Vite + React. Tailwind configured in tailwind.config.js and imported in index.css.
+React Router DOM v6 — one page per entity + Reports page + Login page.
+Axios base URL set to http://localhost:5000 inside src/api/axiosConfig.js.
+Simple, clean UI — white cards, blue accents, readable fonts. NOT over-engineered.
+Login page stores { username, loggedIn:true } in localStorage. Logout clears it.
+Navbar shows the nav links for that scenario (listed in each prompt below).
+Seed data
+Manually insert seed data via MongoDB Compass after the server starts, OR add a simple seed script.
+  SCENARIO 1 — Student Library Management System (SLMS)  
+  Folder: scenario-1-SLMS
+Context
+ReadNest is located in Musanze District, Northern Province of Rwanda. It uses a paper-based system to manage book borrowing and returning, which causes delays and frequent loss of book records. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Student Library Management System (SLMS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: SLMS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-1-SLMS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Student — fields: studentId, firstName, lastName, gender, className, telephone, address
+Collection 2: Book — fields: bookId, title, author, category, quantity
+Collection 3: Borrowing — fields: borrowId, borrowDate, returnDate, status, fine, studentId*, bookId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Book
+categoryCode | categoryName | totalBooks | available
+SC | Science | 5 | 3
+LT | Literature | 3 | 1
+MT | Mathematics | 8 | 5
+HY | History | 4 | 2
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/SLMS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Student and Book: POST (create) only.
+5. Routes for Borrowing: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Students, Books, Borrowing, Reports, Logout.
+3. Page for Student: form to add a new student. Show a table of all existing records (GET).
+4. Page for Book: form to add a new book. Show a table of all existing records (GET).
+5. Page for Borrowing: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all borrowing records joined with related data and display as a styled table.
+   Report columns: monthly borrowing report: StudentName, BookTitle, BorrowDate, ReturnDate, Fine.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-1-SLMS/backend-project && npm install && npm run dev
+  cd scenario-1-SLMS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-1-SLMS
+DB Name
+SLMS
+Collections
+Student  ·  Book  ·  Borrowing
+Full CRUD
+Borrowing only
+Report
+monthly borrowing report: StudentName, BookTitle, BorrowDate, ReturnDate, Fine
+Nav links
+Login  →  Students  →  Books  →  Borrowing  →  Reports  →  Logout
+  SCENARIO 2 — Hotel Room Booking System (HRBS)  
+  Folder: scenario-2-HRBS
+Context
+LakeSide Hotel is located in Rubavu District, Western Province of Rwanda. Managing room reservations manually leads to double-bookings, lost records and poor customer service. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Hotel Room Booking System (HRBS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: HRBS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-2-HRBS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Guest — fields: guestId, firstName, lastName, nationality, telephone, email, gender
+Collection 2: Room — fields: roomId, roomNumber, roomType, pricePerNight, status
+Collection 3: Booking — fields: bookingId, checkInDate, checkOutDate, totalAmount, paymentStatus, guestId*, roomId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Room
+roomCode | roomType | pricePerNight | tax
+SGL | Single | 25000 | 15000
+DBL | Double | 45000 | 20000
+SUT | Suite | 120000 | 30000
+FAM | Family | 80000 | 25000
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/HRBS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Guest and Room: POST (create) only.
+5. Routes for Booking: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Guests, Rooms, Bookings, Reports, Logout.
+3. Page for Guest: form to add a new guest. Show a table of all existing records (GET).
+4. Page for Room: form to add a new room. Show a table of all existing records (GET).
+5. Page for Booking: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all booking records joined with related data and display as a styled table.
+   Report columns: monthly booking report: GuestName, RoomType, CheckInDate, CheckOutDate, TotalAmount.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-2-HRBS/backend-project && npm install && npm run dev
+  cd scenario-2-HRBS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-2-HRBS
+DB Name
+HRBS
+Collections
+Guest  ·  Room  ·  Booking
+Full CRUD
+Booking only
+Report
+monthly booking report: GuestName, RoomType, CheckInDate, CheckOutDate, TotalAmount
+Nav links
+Login  →  Guests  →  Rooms  →  Bookings  →  Reports  →  Logout
+  SCENARIO 3 — School Fee Payment System (SFPS)  
+  Folder: scenario-3-SFPS
+Context
+BrightFuture Secondary School is located in Gasabo District, Kigali. Fees are collected manually, causing missing records, difficulty tracking defaulters and no financial reports. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the School Fee Payment System (SFPS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: SFPS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-3-SFPS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Student — fields: studentId, firstName, lastName, gender, className, parentPhone, address
+Collection 2: FeeStructure — fields: feeId, className, termName, amount, academicYear
+Collection 3: Payment — fields: paymentId, amountPaid, paymentDate, paymentMethod, balance, studentId*, feeId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: FeeStructure
+classCode | className | termFee | registrationFee
+S1 | Senior 1 | 95000 | 10000
+S2 | Senior 2 | 95000 | 10000
+S3 | Senior 3 | 100000 | 12000
+S4 | Senior 4 | 100000 | 12000
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/SFPS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Student and FeeStructure: POST (create) only.
+5. Routes for Payment: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Students, Fee Structure, Payments, Reports, Logout.
+3. Page for Student: form to add a new student. Show a table of all existing records (GET).
+4. Page for FeeStructure: form to add a new feestructure. Show a table of all existing records (GET).
+5. Page for Payment: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all payment records joined with related data and display as a styled table.
+   Report columns: term payment report: StudentName, Class, AmountPaid, Balance, PaymentDate.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-3-SFPS/backend-project && npm install && npm run dev
+  cd scenario-3-SFPS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-3-SFPS
+DB Name
+SFPS
+Collections
+Student  ·  FeeStructure  ·  Payment
+Full CRUD
+Payment only
+Report
+term payment report: StudentName, Class, AmountPaid, Balance, PaymentDate
+Nav links
+Login  →  Students  →  Fee Structure  →  Payments  →  Reports  →  Logout
+  SCENARIO 4 — Medical Appointment System (MAS)  
+  Folder: scenario-4-MAS
+Context
+CarePoint Clinic is located in Nyarugenge District, Kigali. Appointments are scheduled in notebooks, causing conflicts, long waits and no digital patient history. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Medical Appointment System (MAS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: MAS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-4-MAS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Patient — fields: patientId, firstName, lastName, dateOfBirth, gender, telephone, address
+Collection 2: Doctor — fields: doctorId, firstName, lastName, specialization, telephone, gender
+Collection 3: Appointment — fields: appointmentId, appointmentDate, appointmentTime, diagnosis, status, patientId*, doctorId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Doctor
+deptCode | specialization | consultationFee | tax
+GEN | General Medicine | 15000 | 5000
+DEN | Dentistry | 20000 | 8000
+EYE | Ophthalmology | 25000 | 10000
+PED | Pediatrics | 18000 | 6000
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/MAS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Patient and Doctor: POST (create) only.
+5. Routes for Appointment: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Patients, Doctors, Appointments, Reports, Logout.
+3. Page for Patient: form to add a new patient. Show a table of all existing records (GET).
+4. Page for Doctor: form to add a new doctor. Show a table of all existing records (GET).
+5. Page for Appointment: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all appointment records joined with related data and display as a styled table.
+   Report columns: monthly appointment report: PatientName, DoctorName, Specialization, AppointmentDate, Diagnosis.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-4-MAS/backend-project && npm install && npm run dev
+  cd scenario-4-MAS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-4-MAS
+DB Name
+MAS
+Collections
+Patient  ·  Doctor  ·  Appointment
+Full CRUD
+Appointment only
+Report
+monthly appointment report: PatientName, DoctorName, Specialization, AppointmentDate, Diagnosis
+Nav links
+Login  →  Patients  →  Doctors  →  Appointments  →  Reports  →  Logout
+  SCENARIO 5 — 6  
+  Folder: scenario-5-IMS
+Context
+SwiftMart is located in Huye District, Southern Province of Rwanda. Stock records are in paper ledgers, making it impossible to track levels, spot low stock or generate reports. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Inventory Management System (IMS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: IMS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-5-IMS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Product — fields: productId, productName, description, unitPrice, reorderLevel
+Collection 2: Category — fields: categoryId, categoryName, description
+Collection 3: StockMovement — fields: movementId, movementType, quantity, movementDate, remarks, productId*, categoryId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Category
+categoryCode | categoryName | avgUnitPrice | avgTax
+EL | Electronics | 50000 | 10000
+FD | Food & Drinks | 5000 | 500
+CL | Clothing | 15000 | 3000
+ST | Stationery | 3000 | 300
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/IMS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Product and Category: POST (create) only.
+5. Routes for StockMovement: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Products, Categories, Stock Movements, Reports, Logout.
+3. Page for Product: form to add a new product. Show a table of all existing records (GET).
+4. Page for Category: form to add a new category. Show a table of all existing records (GET).
+5. Page for StockMovement: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all stockmovement records joined with related data and display as a styled table.
+   Report columns: monthly stock movement report: ProductName, Category, MovementType, Quantity, MovementDate.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-5-IMS/backend-project && npm install && npm run dev
+  cd scenario-5-IMS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-5-IMS
+DB Name
+IMS
+Collections
+Product  ·  Category  ·  StockMovement
+Full CRUD
+StockMovement only
+Report
+monthly stock movement report: ProductName, Category, MovementType, Quantity, MovementDate
+Nav links
+Login  →  Products  →  Categories  →  Stock Movements  →  Reports  →  Logout
+  SCENARIO 6 — Bus Ticket Booking System (BTBS)  
+  Folder: scenario-6-BTBS
+Context
+RwandaLink Transport is located in Kigali. Tickets are sold physically, causing long queues, overbooking and no passenger records. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Bus Ticket Booking System (BTBS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: BTBS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-6-BTBS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Passenger — fields: passengerId, firstName, lastName, idNumber, telephone, gender
+Collection 2: Route — fields: routeId, origin, destination, distance, estimatedDuration
+Collection 3: Ticket — fields: ticketId, seatNumber, travelDate, ticketPrice, paymentStatus, passengerId*, routeId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Route
+routeCode | routeName | distance | basePrice
+KGL-BT | Kigali - Butare | 135 km | 3000
+KGL-GB | Kigali - Gisenyi | 165 km | 3500
+KGL-RH | Kigali - Ruhengeri | 100 km | 2500
+KGL-CY | Kigali - Cyangugu | 225 km | 4500
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/BTBS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Passenger and Route: POST (create) only.
+5. Routes for Ticket: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Passengers, Routes, Tickets, Reports, Logout.
+3. Page for Passenger: form to add a new passenger. Show a table of all existing records (GET).
+4. Page for Route: form to add a new route. Show a table of all existing records (GET).
+5. Page for Ticket: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all ticket records joined with related data and display as a styled table.
+   Report columns: daily ticket report: PassengerName, Route, SeatNumber, TravelDate, TicketPrice.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-6-BTBS/backend-project && npm install && npm run dev
+  cd scenario-6-BTBS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-6-BTBS
+DB Name
+BTBS
+Collections
+Passenger  ·  Route  ·  Ticket
+Full CRUD
+Ticket only
+Report
+daily ticket report: PassengerName, Route, SeatNumber, TravelDate, TicketPrice
+Nav links
+Login  →  Passengers  →  Routes  →  Tickets  →  Reports  →  Logout
+  SCENARIO 7 — Equipment Rental Management System (ERMS)  
+  Folder: scenario-7-ERMS
+Context
+BuildPro Rentals is located in Kicukiro District, Kigali. Rental records are manual, causing disputes over equipment availability, missing returns and revenue losses. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Equipment Rental Management System (ERMS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: ERMS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-7-ERMS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Client — fields: clientId, firstName, lastName, companyName, telephone, address, gender
+Collection 2: Equipment — fields: equipmentId, equipmentName, brand, condition, dailyRate
+Collection 3: Rental — fields: rentalId, startDate, endDate, totalCost, depositPaid, status, clientId*, equipmentId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Equipment
+equipCode | equipmentName | dailyRate | deposit
+EX | Excavator | 150000 | 30000
+CR | Concrete Mixer | 40000 | 8000
+GN | Generator | 25000 | 5000
+SC | Scaffolding Set | 20000 | 4000
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/ERMS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Client and Equipment: POST (create) only.
+5. Routes for Rental: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Clients, Equipment, Rentals, Reports, Logout.
+3. Page for Client: form to add a new client. Show a table of all existing records (GET).
+4. Page for Equipment: form to add a new equipment. Show a table of all existing records (GET).
+5. Page for Rental: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all rental records joined with related data and display as a styled table.
+   Report columns: monthly rental report: ClientName, EquipmentName, StartDate, EndDate, TotalCost.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-7-ERMS/backend-project && npm install && npm run dev
+  cd scenario-7-ERMS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-7-ERMS
+DB Name
+ERMS
+Collections
+Client  ·  Equipment  ·  Rental
+Full CRUD
+Rental only
+Report
+monthly rental report: ClientName, EquipmentName, StartDate, EndDate, TotalCost
+Nav links
+Login  →  Clients  →  Equipment  →  Rentals  →  Reports  →  Logout
+  SCENARIO 8 — Restaurant Order Management System (ROMS)  
+  Folder: scenario-8-ROMS
+Context
+TasteHouse is located in Kimironko, Gasabo District, Kigali. Orders are taken on paper, causing wrong deliveries, slow service and no daily sales tracking. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Restaurant Order Management System (ROMS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: ROMS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-8-ROMS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Customer — fields: customerId, firstName, lastName, telephone, tableNumber, gender
+Collection 2: MenuItem — fields: menuId, itemName, category, unitPrice, availability
+Collection 3: Order — fields: orderId, orderDate, orderTime, quantity, totalAmount, paymentMethod, customerId*, menuId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: MenuItem
+categoryCode | categoryName | avgPrice | tax
+MN | Main Course | 8000 | 500
+DS | Desserts | 3500 | 200
+BV | Beverages | 2000 | 100
+ST | Starters | 4500 | 300
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/ROMS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Customer and MenuItem: POST (create) only.
+5. Routes for Order: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Customers, Menu Items, Orders, Reports, Logout.
+3. Page for Customer: form to add a new customer. Show a table of all existing records (GET).
+4. Page for MenuItem: form to add a new menuitem. Show a table of all existing records (GET).
+5. Page for Order: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all order records joined with related data and display as a styled table.
+   Report columns: daily sales report: CustomerName, ItemName, Quantity, OrderDate, TotalAmount.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-8-ROMS/backend-project && npm install && npm run dev
+  cd scenario-8-ROMS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-8-ROMS
+DB Name
+ROMS
+Collections
+Customer  ·  MenuItem  ·  Order
+Full CRUD
+Order only
+Report
+daily sales report: CustomerName, ItemName, Quantity, OrderDate, TotalAmount
+Nav links
+Login  →  Customers  →  Menu Items  →  Orders  →  Reports  →  Logout
+  SCENARIO 9 — Farm Supply Distribution System (FSDS)  
+  Folder: scenario-9-FSDS
+Context
+GreenField Agro is located in Rwamagana District, Eastern Province of Rwanda. Farm inputs are distributed manually. Records are lost, farmers get wrong supplies and seasonal reports cannot be generated. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Farm Supply Distribution System (FSDS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: FSDS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-9-FSDS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Farmer — fields: farmerId, firstName, lastName, village, telephone, gender, landSize
+Collection 2: FarmInput — fields: inputId, inputName, inputType, unitMeasure, unitPrice
+Collection 3: Distribution — fields: distributionId, distributionDate, quantityGiven, totalValue, season, farmerId*, inputId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: FarmInput
+inputCode | inputType | unitPrice | subsidy
+FT | Fertilizer | 12000 | 2000
+SD | Seeds | 8000 | 1500
+PS | Pesticides | 15000 | 3000
+TL | Tools | 20000 | 4000
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/FSDS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Farmer and FarmInput: POST (create) only.
+5. Routes for Distribution: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Farmers, Farm Inputs, Distributions, Reports, Logout.
+3. Page for Farmer: form to add a new farmer. Show a table of all existing records (GET).
+4. Page for FarmInput: form to add a new farminput. Show a table of all existing records (GET).
+5. Page for Distribution: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all distribution records joined with related data and display as a styled table.
+   Report columns: seasonal distribution report: FarmerName, Village, InputName, QuantityGiven, TotalValue.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-9-FSDS/backend-project && npm install && npm run dev
+  cd scenario-9-FSDS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-9-FSDS
+DB Name
+FSDS
+Collections
+Farmer  ·  FarmInput  ·  Distribution
+Full CRUD
+Distribution only
+Report
+seasonal distribution report: FarmerName, Village, InputName, QuantityGiven, TotalValue
+Nav links
+Login  →  Farmers  →  Farm Inputs  →  Distributions  →  Reports  →  Logout
+  SCENARIO 10 — Sports Club Membership System (SCMS)  
+  Folder: scenario-10-SCMS
+Context
+ProFit Sports Club is located in Remera, Gasabo District, Kigali. Memberships and renewals are on paper, making it hard to track active members, expired subscriptions or monthly revenue. A web-based application is needed so staff can manage records digitally and generate reports automatically.
+Windsurf Prompt — paste this into AI chat
+You are helping me build a simple full stack web application called the Sports Club Membership System (SCMS).
+ 
+== TECH STACK ==
+Frontend : React (Vite) + Tailwind CSS + React Router DOM + Axios
+Backend  : Node.js + Express.js + Mongoose + CORS + dotenv + nodemon
+Database : MongoDB (local, port 27017, db name: SCMS)
+ 
+== FOLDER STRUCTURE ==
+Work inside the folder: scenario-10-SCMS/
+  - backend-project/   (Express + Mongoose API)
+  - frontend-project/  (React + Vite + Tailwind)
+ 
+== DATABASE COLLECTIONS ==
+Collection 1: Member — fields: memberId, firstName, lastName, dateOfBirth, gender, telephone, address
+Collection 2: Plan — fields: planId, planName, duration, price, description
+Collection 3: Subscription — fields: subscriptionId, startDate, endDate, amountPaid, status, memberId*, planId*
+ 
+Foreign keys marked with * mean that field stores the _id of the related document.
+ 
+== SEED DATA (insert into MongoDB Compass after server starts) ==
+Collection: Plan
+planCode | planName | duration | price
+MN | Monthly | 1 Month | 15000
+QT | Quarterly | 3 Months | 40000
+SM | Semi-Annual | 6 Months | 75000
+AN | Annual | 12 Months | 130000
+ 
+== BACKEND REQUIREMENTS ==
+1. server.js: import express, cors, mongoose, dotenv. Connect to mongodb://localhost:27017/SCMS. Listen on port 5000.
+2. Create a Mongoose model file in models/ for each collection.
+3. Create a route file in routes/ for each collection.
+4. Routes for Member and Plan: POST (create) only.
+5. Routes for Subscription: GET all, POST (create), PUT (update by id), DELETE (by id).
+6. Also create a Users collection with POST /api/users/login that checks username+password.
+ 
+== FRONTEND REQUIREMENTS ==
+1. Login page: simple form (username, password). On success save {loggedIn:true} to localStorage and redirect.
+2. Navbar with links: Login, Members, Plans, Subscriptions, Reports, Logout.
+3. Page for Member: form to add a new member. Show a table of all existing records (GET).
+4. Page for Plan: form to add a new plan. Show a table of all existing records (GET).
+5. Page for Subscription: full CRUD — form to add, table showing all records, edit button (pre-fills form), delete button.
+6. Reports page: fetch all subscription records joined with related data and display as a styled table.
+   Report columns: monthly membership report: MemberName, PlanName, StartDate, EndDate, AmountPaid.
+7. Logout: clears localStorage and redirects to Login.
+8. Axios config: create src/api/axiosConfig.js with baseURL http://localhost:5000.
+ 
+== STYLE GUIDE ==
+- Simple and clean. White background, blue (#2563EB) accents, gray borders.
+- Tailwind utility classes only. No external UI libraries.
+- Responsive: works on desktop and tablet.
+- Each form inside a white card (shadow, rounded corners, padding).
+- Tables: striped rows, header row with blue background and white text.
+ 
+== WHAT TO GENERATE ==
+Generate ALL files needed to run the project:
+backend-project: package.json, .env, server.js, models/*.js, routes/*.js
+frontend-project: package.json, vite.config.js, tailwind.config.js, postcss.config.js,
+  index.html, src/main.jsx, src/App.jsx, src/index.css,
+  src/api/axiosConfig.js, src/pages/*.jsx, src/components/Navbar.jsx
+ 
+After generating, tell me the exact commands to run:
+  cd scenario-10-SCMS/backend-project && npm install && npm run dev
+  cd scenario-10-SCMS/frontend-project && npm install && npm run dev
+Quick Reference
+Item
+Value
+Folder
+scenario-10-SCMS
+DB Name
+SCMS
+Collections
+Member  ·  Plan  ·  Subscription
+Full CRUD
+Subscription only
+Report
+monthly membership report: MemberName, PlanName, StartDate, EndDate, AmountPaid
+Nav links
+Login  →  Members  →  Plans  →  Subscriptions  →  Reports  →  Logout
+  DONE — 10 Scenarios Ready  
+Each scenario's prompt is self-contained. Paste it into Windsurf AI chat while the correct folder is open, and it will generate the complete project.
+Good luck!
